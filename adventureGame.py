@@ -1,30 +1,48 @@
+# ------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------  Program information    --------------------------------------
-
+# ------------------------------------------------------------------------------------------------------------
 # The ultimate adventure game  
 # Written by: CSIT group BitSoft
 
-# ---------------------------------------------- Function header template -------------------------------------
-
+# ------------------------------------------------------------------------------------------------------------
+# --------------------------------------------  Function header template   -----------------------------------
+# ------------------------------------------------------------------------------------------------------------
 # Function: What does it do
 # Params: What does it accept
 # Returns: What does it return
   
-
-# ----------------------------------------------      Library imports    --------------------------------------
-
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------      Library imports   --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 import time # for measuring execution time during tests
 
-
-# ----------------------------------------------      Base Classes    --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------      Base Classes      --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 
 class GameObject(object):
    def __init__(self):
       name = "game object"
-      description = "A glowing green game object "
+      description = "a glowing green game object "
+   def __string__(self):
+      return self.description
+      
+class Creature(GameObject):
+   def __init__(self):
+      health = 100
+      strength = 100
+      self.name = "Unknown creature"
+      self.description = "a shapeless creature from the void"
 
-
-# ----------------------------------------------   Game Map Classes    --------------------------------------
-
+class Item(GameObject):
+   def __init__(self):
+      weight = 10
+      self.name = "Unknown item"
+      self.description = "an item which clearly has a variety of uses in the right hands"
+            
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------   Game Map Control     --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 class MapTile(GameObject):
    def __init__(self, name, description):
       super(MapTile, self).__init__()
@@ -35,14 +53,16 @@ class MapTile(GameObject):
       self.name = name
       self.description = description
       self.mapIndex = -1
+      self.items = []
+      self.creatures = [Creature()]
       
    def __str__(self):
-      return self.description
+      return self.description + "." + "There is a " + self.creatures[0].description + " here."
 
 class GameMap(object):
    """The base class for all items"""
    def __init__(self):
-      self.levelTitle = "level --- the end of time"
+      self.levelTitle = "01 the end of time"
       self.exitMap = []
       self.mapTiles = [] 
           
@@ -64,6 +84,24 @@ class GameMap(object):
 #    def addTile(exits[5]):
     
 
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------   Player and Control   --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------         Items          --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------        Enemies         --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------   Game init & Loop     --------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 tile = MapTile("","")        
 gameMap = GameMap()
 gameMap.addTile(MapTile("Starting tile", "a dark room with no exits"), [-1,-1,-1,-1,-1])
@@ -71,10 +109,12 @@ currentTile = gameMap.mapTiles[0]
 
 exit = false
 
+showInformation("Welcome to level " + gameMap.levelTitle + ". To quit type quit, otherwise good luck")
 while(exit == false):
+   showInformation("You are standing in " + str(currentTile))
    cmd = requestString("What would you like to do?").lower()
    if cmd == "quit":
      exit = true
-   else:
-   showInformation("You are standing in " + str(currentTile))
+   
+        
 #GameMap.addTile()

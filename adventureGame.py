@@ -57,7 +57,7 @@ class MapTile(GameObject):
       self.creatures = [Creature()]
       
    def __str__(self):
-      return self.description + "." + "There is a " + self.creatures[0].description + " here."
+      return self.description + ". There is a " + self.creatures[0].description + " here."
 
 class GameMap(object):
    """The base class for all items"""
@@ -102,19 +102,20 @@ class GameMap(object):
 # ------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------   Game init & Loop     --------------------------------------
 # ------------------------------------------------------------------------------------------------------------
-tile = MapTile("","")        
-gameMap = GameMap()
-gameMap.addTile(MapTile("Starting tile", "a dark room with no exits"), [-1,-1,-1,-1,-1])
-currentTile = gameMap.mapTiles[0]
+def play():
+   tile = MapTile("","")        
+   gameMap = GameMap()
+   gameMap.addTile(MapTile("Starting tile", "a dark room with no exits"), [-1,-1,-1,-1,-1])
+   currentTile = gameMap.mapTiles[0]
 
-exit = false
+   exit = false
 
-showInformation("Welcome to level " + gameMap.levelTitle + ". To quit type quit, otherwise good luck")
-while(exit == false):
-   showInformation("You are standing in " + str(currentTile))
-   cmd = requestString("What would you like to do?").lower()
-   if cmd == "quit":
-     exit = true
+   showInformation("Welcome to level " + gameMap.levelTitle + ". To quit type quit, otherwise good luck.")
+   while(exit == false):
+      showInformation("You are standing in " + str(currentTile))
+      cmd = requestString("What would you like to do?").lower()
+      if cmd == "quit":
+         exit = true
    
         
 #GameMap.addTile()

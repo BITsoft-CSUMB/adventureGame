@@ -4,6 +4,49 @@ power = true
 zombieNum = 0
 haveKeys = false
 
+def help():
+  global power
+  global zombieNum
+  global haveKeys
+  global locationCode
+  if power is true:
+    printNow('The power is on')
+  else:
+    printNow('The power is off')
+  if zombieNum > 0:
+    printNow('You are surrounded by ' + str(zombieNum) + ' zombie(s).')
+  if haveKeys is true:
+    printNow('You are carrying keys to the Officers Quarters')
+  if locationCode == 'O':
+    printNow('You are in the Officers Quarters')
+    if zombieNum >= 1:
+      printNow('The only exit is the escape pod')
+    else:
+      printNow('The only exits are aft or the escape pod')
+  elif locationCode == 'C':
+    printNow('You are in the Commmand Center')
+    printNow('There are exits fore and aft')
+    if haveKeys is false:
+      printNow('The fore exit is locked')
+  elif locationCode == 'M':
+    printNow('You are in the Mess Hall')
+    printNow('The only exit is starboard')
+    if haveKeys is False:
+      printNow('You can grab the captains keys')
+  elif locationCode == 'H':
+    printNow('You are in the main hallway')
+    printNow('There are exits fore, aft, port and starboard')
+  elif locationCode == 'Q':
+    printNow('You are in the Crews Quarters')
+    printNow('The only exit is port')
+  elif locationCode == 'E':
+    printNow('You are in the Engine Room')
+    printNow('The only exit is fore')
+    printNow('There is a power switch to the left')
+  else:
+    printNow('You are lost...')
+  return
+
 def command():
   global power
   global haveKeys
@@ -27,6 +70,8 @@ def command():
     return 'O'
   elif move == 'aft':
     return 'H'
+  elif move == 'help':
+    help()
   elif move == 'exit':
     return 'X'
   else:
@@ -55,6 +100,8 @@ def hallway():
     return 'Q'
   elif move == 'aft':
     return 'E'
+  elif move == 'help':
+    help()
   elif move == 'exit':
     return 'X'
   else:
@@ -76,6 +123,8 @@ def engineRoom():
   cls()
   if move == 'fore':
     return 'H'
+  elif move == 'help':
+    help()
   elif move == 'exit':
     return 'X'
   elif move == 'pwr':
@@ -102,6 +151,9 @@ def crewQuarters():
     return 'H'
   elif move == 'atk':
     printNow('You do not have a weapon!!!')
+  elif move == 'help':
+    help()
+    return 'Q'
   elif move == 'exit':
     return 'X'
   else:
@@ -147,6 +199,8 @@ def messHall():
     printNow('You grab the keys to the Officers Quarters off the dead captain.')
   elif move == 'atk':
     printNow('You do not have a weapon!!!')
+  elif move == 'help':
+    help()
   elif move == 'exit':
     return 'X'
   else:
@@ -162,7 +216,10 @@ def officersQuarters():
   printNow('On each side are the slots that hold escape pods. One remains available...')
   escape = requestString('Do you want to enter the pod and escape: ').lower()
   cls()
-  if "y" in escape:
+  if "help" in escape or "?" in escape:
+    help()
+    return 'O'
+  elif "y" in escape:
     printNow(' ')
     printNow('----- Escape Pod -----')
     printNow('As you step into the escape pod, freedom just moments away -')
@@ -178,31 +235,34 @@ def officersQuarters():
     return 'X'
   zombieNum += 1
   if zombieNum <= 1:
-    printNow('A dead crewman comes staggering through the door to the Command Center.')
+    printNow('A dead crewman comes staggering through the door to the Command Center blocking that exit.')
   else:
     printNow('Your indecision has killed you. The dead crewman grabs you and begins pulling out your intestines.')
     return 'X'
   return 'O'
 
 def doAction():
-    direction = requestString('What do you want to do: ').lower()
-    if "fore" in direction or "north" in direction:
-      return 'fore'
-    elif "aft" in direction or "south" in direction:
-      return 'aft'
-    elif "port" in direction or "west" in direction:
-      return 'port'
-    elif "star" in direction or "east" in direction:
-      return 'star'
-    elif "exit" in direction or "quit" in direction:
-      return 'exit'
-    elif "switch" in direction or "turn " in direction or "power" in direction:
-      return 'pwr'
-    elif "attack" in direction:
-      return 'atk'
-    elif "keys" in direction:
-      return 'keys'
-    return 'none'
+  global locationCode
+  direction = requestString('What do you want to do: ').lower()
+  if "fore" in direction or "north" in direction:
+    return 'fore'
+  elif "aft" in direction or "south" in direction:
+    return 'aft'
+  elif "port" in direction or "west" in direction:
+    return 'port'
+  elif "star" in direction or "east" in direction:
+    return 'star'
+  elif "exit" in direction or "quit" in direction:
+    return 'exit'
+  elif "switch" in direction or "turn " in direction or "power" in direction:
+    return 'pwr'
+  elif "attack" in direction:
+    return 'atk'
+  elif "keys" in direction:
+    return 'keys'
+  elif "help" in direction or "?" in direction:
+    return 'help'
+  return 'none'
 
 def cls():
   for x in range(0, 15):
@@ -210,6 +270,7 @@ def cls():
 
 cls()
 printNow('You wake up in the center of a submarine command center.')
+printNow('You can type help at any time for a list of commands')
 locationCode = 'C'
 while locationCode != 'X':
   if locationCode == 'O':

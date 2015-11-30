@@ -5,6 +5,8 @@ zombieNum = 0
 haveKeys = false
 
 def command():
+  global power
+  global haveKeys
   printNow(' ')
   printNow('----- Command Center -----')
   printNow('You find yourself in the command center of a submarine')
@@ -32,6 +34,7 @@ def command():
   return 'C'
 
 def hallway():
+  global power
   printNow(' ')
   printNow('----- Hallway -----')
   printNow('You are in the central hallway of the submarine.')
@@ -151,6 +154,8 @@ def messHall():
   return 'M'
 
 def officersQuarters():
+  global power
+  global zombieNum
   printNow(' ')
   printNow('----- Officers Quarters -----')
   printNow('You have reached the front of the ship.')
@@ -161,9 +166,21 @@ def officersQuarters():
     printNow(' ')
     printNow('----- Escape Pod -----')
     printNow('As you step into the escape pod, freedom just moments away -')
-    printNow('an undead crewman attacks you from the darkness and bites out your throat!')
-    printNow('You lay on the floor bleeding as the escape pod surfaces.')
-    printNow('You feel weak and hungry for human brains.')
+    printNow('an undead crewman attacks you from the darkness and bites your chest!')
+    printNow('You are able to crush the dead crewmans skull and push the body away.')
+    if power is true:
+      printNow('You lay on the floor bleeding as the escape pod surfaces.')
+      printNow('You feel weak and hungry for human brains and see shore through the portal.')
+      printNow('Happy hunting...')
+    else:
+      printNow('You lay on the floor bleeding, never to leave this underwater grave.')
+      printNow('You will never be able to satiate your hunger for human brains.')
+    return 'X'
+  zombieNum += 1
+  if zombieNum <= 1:
+    printNow('A dead crewman comes staggering through the door to the Command Center.')
+  else:
+    printNow('Your indecision has killed you. The dead crewman grabs you and begins pulling out your intestines.')
     return 'X'
   return 'O'
 

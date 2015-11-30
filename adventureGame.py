@@ -14,8 +14,10 @@
 # ------------------------------------------------------------------------------------------------------------
 # --------------------------------------------  Play game  ---------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------
+hasSpaceSuit = False
 
 def play():
+  global hasSpaceSuit
   exit = False
   won = False
   room = 1 # Begin game in room 1 (medical bay)
@@ -76,8 +78,12 @@ def roomOne():
   
 # User can grab the space suit to win the game here (set hasSpaceSuit to True)
 def roomTwo():
+  global hasSpaceSuit
   printNow("You are standing in the space walk utility room.")
   cmd = getDirection()
+  if cmd == "space suit":
+    hasSpaceSuit = True
+    cmd = getDirection()
   if isQuit(cmd):
     return -1
   elif isHelp(cmd):
@@ -103,8 +109,14 @@ def roomFour():
   return 5 # TODO: Should change to 4 when other elifs are filled in
 
 def roomFive():
-  printNow("You are standing in the missile room.")
+  global hasSpaceSuit
+  printNow("You are standing in the missile room. (there's a big red button)")
   cmd = getDirection()
+  if cmd == "big red button":
+    if hasSpaceSuit:
+      return 0 # Woo! Win!
+    else:
+      cmd = getDirection() 
   if isQuit(cmd):
     return -1
   elif isHelp(cmd):
@@ -129,5 +141,3 @@ def isHelp(command):
     printNow("HERE ARE SOME HELPFUL INSTRUCTIONS!")
     return True
   return False
-  
-
